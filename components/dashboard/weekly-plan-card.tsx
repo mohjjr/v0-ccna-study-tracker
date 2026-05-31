@@ -98,8 +98,8 @@ export function WeeklyPlanCard() {
           <div className="text-sm font-medium">Lessons This Week</div>
           <div className="flex flex-wrap gap-2">
             {currentWeekData.lessons.slice(0, 3).map(lesson => (
-              <Badge key={lesson.id} variant="outline" className="text-xs">
-                Day {lesson.day}
+              <Badge key={lesson?.id} variant="outline" className="text-xs">
+                Day {lesson?.day}
               </Badge>
             ))}
             {currentWeekData.lessons.length > 3 && (
