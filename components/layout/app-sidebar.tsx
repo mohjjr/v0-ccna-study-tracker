@@ -10,6 +10,7 @@ import {
   Settings,
   GraduationCap,
   Flame,
+  Calendar,
 } from "lucide-react"
 
 import {
@@ -38,6 +39,11 @@ const navigationItems = [
     title: "Learning Roadmap",
     url: "/roadmap",
     icon: Map,
+  },
+  {
+    title: "Weekly Plan",
+    url: "/weekly-plan",
+    icon: Calendar,
   },
   {
     title: "Study Sessions",

@@ -76,6 +76,10 @@ interface StudyState {
   getStudyTimeByDate: (date: string) => number
   getWeeklyStudyData: () => { day: string; minutes: number }[]
   getDomainProgress: () => Record<string, { completed: number; total: number }>
+  
+  // Weekly plan stats
+  getCompletedLessonIds: () => string[]
+  getTotalStudyTimeTodayInMinutes: () => number
 }
 
 const DEFAULT_SETTINGS: UserSettings = {
@@ -330,6 +334,18 @@ export const useStudyStore = create<StudyState>()(
       getDomainProgress: () => {
         // This would need curriculum data - will be implemented when used
         return {}
+      },
+      
+      getCompletedLessonIds: () => {
+        const { lessonProgress } = get()
+        return Object.entries(lessonProgress)
+          .filter(([_, p]) => p.status === "completed")
+          .map(([id]) => id)
+      },
+      
+      getTotalStudyTimeTodayInMinutes: () => {
+        const today = new Date().toISOString()
+        return get().getStudyTimeByDate(today)
       },
     }),
     {
