@@ -47,7 +47,7 @@ export function getWeekByNumber(weekNumber: number): WeekSchedule | undefined {
 
 // Helper function to get current week based on date
 export function getCurrentWeek(): number {
-  const startDate = new Date('2026-06-01') // Course start date
+  const startDate = new Date('2026-05-31') // Course start date (today)
   const today = new Date()
   const daysElapsed = Math.floor((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24))
   const weekNumber = Math.floor(daysElapsed / 7) + 1
