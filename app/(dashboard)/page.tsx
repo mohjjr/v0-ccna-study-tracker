@@ -6,6 +6,7 @@ import { ProgressCards } from "@/components/dashboard/progress-cards"
 import { WeeklyChart } from "@/components/dashboard/weekly-chart"
 import { RecentActivity } from "@/components/dashboard/recent-activity"
 import { DomainProgress } from "@/components/dashboard/domain-progress"
+import { WeeklyPlanCard } from "@/components/dashboard/weekly-plan-card"
 
 export default function DashboardPage() {
   return (
@@ -16,6 +17,7 @@ export default function DashboardPage() {
           <WelcomeBanner />
           <ProgressCards />
           <div className="grid gap-6 lg:grid-cols-3">
+            <WeeklyPlanCard />
             <WeeklyChart />
             <RecentActivity />
           </div>

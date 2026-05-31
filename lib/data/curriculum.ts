@@ -735,3 +735,84 @@ export function getTotalLessonCount(): number {
 export function getTotalLabCount(): number {
   return getAllLessons().filter(lesson => lesson.hasLab).length
 }
+
+// 6-Week Study Plan Structure
+// Distributes 62 lessons across 6 weeks (~10-11 lessons per week)
+export interface WeeklyPlan {
+  week: number
+  title: string
+  description: string
+  lessonIds: string[]
+  weeklyHoursGoal: number
+}
+
+export const WEEKLY_PLAN: WeeklyPlan[] = [
+  {
+    week: 1,
+    title: "Network Foundations",
+    description: "Network devices, cables, OSI model, CLI basics, and Ethernet fundamentals",
+    lessonIds: ["day-1", "day-2", "day-3", "day-4", "day-5", "day-6", "day-7", "day-8", "day-9", "day-10"],
+    weeklyHoursGoal: 8,
+  },
+  {
+    week: 2,
+    title: "Routing & VLANs",
+    description: "Static routing, subnetting mastery, VLAN configuration, and trunking",
+    lessonIds: ["day-11", "day-12", "day-13", "day-14", "day-15", "day-16", "day-17", "day-18", "day-19"],
+    weeklyHoursGoal: 9,
+  },
+  {
+    week: 3,
+    title: "Switching & Layer 3",
+    description: "STP, RSTP, EtherChannel, dynamic routing, and OSPF foundations",
+    lessonIds: ["day-20", "day-21", "day-22", "day-23", "day-24", "day-25", "day-26", "day-27", "day-28", "day-29"],
+    weeklyHoursGoal: 10,
+  },
+  {
+    week: 4,
+    title: "IPv6 & IP Services",
+    description: "Layer 3 switching, IPv6, ACLs, CDP/LLDP, NTP, DNS, and DHCP",
+    lessonIds: ["day-30", "day-31", "day-32", "day-33", "day-34", "day-35", "day-36", "day-37", "day-38", "day-39"],
+    weeklyHoursGoal: 8,
+  },
+  {
+    week: 5,
+    title: "Network Services & Security",
+    description: "SNMP, Syslog, SSH, FTP/TFTP, NAT, QoS, and security fundamentals",
+    lessonIds: ["day-40", "day-41", "day-42", "day-43", "day-44", "day-45", "day-46", "day-47", "day-48", "day-49"],
+    weeklyHoursGoal: 8,
+  },
+  {
+    week: 6,
+    title: "Security, Wireless & Automation",
+    description: "Advanced security, wireless, architectures, and network automation",
+    lessonIds: ["day-50", "day-51", "day-52", "day-53", "day-54", "day-55", "day-56", "day-57", "day-58", "day-59", "day-60", "day-61", "day-62"],
+    weeklyHoursGoal: 9,
+  },
+]
+
+// Get lessons for a specific week
+export function getLessonsForWeek(week: number): Lesson[] {
+  const weekPlan = WEEKLY_PLAN.find(w => w.week === week)
+  if (!weekPlan) return []
+  return weekPlan.lessonIds.map(id => getLessonById(id)).filter((l): l is Lesson => l !== undefined)
+}
+
+// Get week for a specific lesson
+export function getWeekForLesson(lessonId: string): number | undefined {
+  const week = WEEKLY_PLAN.find(w => w.lessonIds.includes(lessonId))
+  return week?.week
+}
+
+// Get total tasks (lessons + labs) for a week
+export function getWeekTotalTasks(week: number): number {
+  const lessons = getLessonsForWeek(week)
+  const lessonCount = lessons.length
+  const labCount = lessons.filter(l => l.hasLab).length
+  return lessonCount + labCount
+}
+
+// Get week plan by week number
+export function getWeekPlan(week: number): WeeklyPlan | undefined {
+  return WEEKLY_PLAN.find(w => w.week === week)
+}
