@@ -1,18 +1,20 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { useStudyStore } from "@/lib/store"
 import { Button } from "@/components/ui/button"
 import { Flame, Target, Sparkles } from "lucide-react"
 
 export function WelcomeBanner() {
   const { settings, currentStreak, hasCompletedOnboarding } = useStudyStore()
+  const [greeting, setGreeting] = useState("Welcome")
   
-  const getGreeting = () => {
+  useEffect(() => {
     const hour = new Date().getHours()
-    if (hour < 12) return "Good morning"
-    if (hour < 17) return "Good afternoon"
-    return "Good evening"
-  }
+    if (hour < 12) setGreeting("Good morning")
+    else if (hour < 17) setGreeting("Good afternoon")
+    else setGreeting("Good evening")
+  }, [])
 
   const getMotivationalMessage = () => {
     if (currentStreak >= 30) return "You're on fire! 30+ day streak - incredible dedication!"
@@ -29,7 +31,7 @@ export function WelcomeBanner() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-2">
             <h1 className="text-2xl font-bold tracking-tight md:text-3xl">
-              {getGreeting()}, {settings.name}!
+              {greeting}, {settings.name}!
             </h1>
             <p className="text-muted-foreground max-w-md">
               {getMotivationalMessage()}
