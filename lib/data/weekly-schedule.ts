@@ -47,7 +47,7 @@ export function getWeekByNumber(weekNumber: number): WeekSchedule | undefined {
 
 // Helper function to get current week based on date
 export function getCurrentWeek(): number {
-  const startDate = new Date('2024-01-08') // Course start date
+  const startDate = new Date('2026-06-01') // Course starts tomorrow
   const today = new Date()
   const daysElapsed = Math.floor((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24))
   const weekNumber = Math.floor(daysElapsed / 7) + 1
@@ -85,6 +85,11 @@ export function getWeeksWithProgress(completedLessons: string[]): WeekProgress[]
 // Helper function to get schedule status
 export function getScheduleStatus(weekNumber: number, progressPercentage: number): 'ahead' | 'on-track' | 'behind' {
   const expectedCompletion = (weekNumber / 6) * 100
+  
+  // For Week 1, be more lenient - allow 0% progress to be on-track
+  if (weekNumber === 1 && progressPercentage === 0) {
+    return 'on-track'
+  }
   
   if (progressPercentage >= expectedCompletion + 10) {
     return 'ahead'
