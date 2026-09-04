@@ -278,10 +278,13 @@ export const useStudyStore = create<StudyState>()(
           return
         }
         
-        if (isToday(lastStudyDate)) {
-          // Already studied today, no change needed
-          return
-        }
+  if (isToday(lastStudyDate)) {
+    // A persisted session can exist while the cached streak is still zero.
+    if (currentStreak === 0) {
+      set({ currentStreak: 1, longestStreak: Math.max(1, longestStreak) })
+    }
+    return
+  }
         
         if (isYesterday(lastStudyDate)) {
           // Studied yesterday, increment streak
@@ -355,6 +358,9 @@ export const useStudyStore = create<StudyState>()(
     }),
     {
       name: "ccna-study-storage",
+      onRehydrateStorage: () => (state) => {
+        state?.checkAndUpdateStreak()
+      },
     }
   )
 )

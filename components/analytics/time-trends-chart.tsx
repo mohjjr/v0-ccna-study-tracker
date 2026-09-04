@@ -18,10 +18,10 @@ export function TimeTrendsChart({ period = "week" }: TimeTrendsChartProps) {
   // Generate data for each day
   const data = Array.from({ length: days }, (_, i) => {
     const date = startOfDay(subDays(new Date(), days - 1 - i))
-    const dateStr = date.toISOString().split("T")[0]
+    const dateStr = format(date, "yyyy-MM-dd")
     
     const dayMinutes = sessions
-      .filter(s => s.completed && s.startTime.split("T")[0] === dateStr)
+      .filter(s => s.completed && format(new Date(s.startTime), "yyyy-MM-dd") === dateStr)
       .reduce((sum, s) => sum + s.duration, 0)
     
     return {
