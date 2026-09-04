@@ -89,21 +89,26 @@ const DEFAULT_SETTINGS: UserSettings = {
   breakLength: 5,
 }
 
+function calendarDate(value: string | Date): string {
+  const date = value instanceof Date ? value : new Date(value)
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, "0")
+  const day = String(date.getDate()).padStart(2, "0")
+  return `${year}-${month}-${day}`
+}
+
 function isSameDay(date1: string, date2: string): boolean {
-  return date1.split("T")[0] === date2.split("T")[0]
+  return calendarDate(date1) === calendarDate(date2)
 }
 
 function isYesterday(dateStr: string): boolean {
-  const date = new Date(dateStr)
   const yesterday = new Date()
   yesterday.setDate(yesterday.getDate() - 1)
-  return date.toDateString() === yesterday.toDateString()
+  return calendarDate(dateStr) === calendarDate(yesterday)
 }
 
 function isToday(dateStr: string): boolean {
-  const date = new Date(dateStr)
-  const today = new Date()
-  return date.toDateString() === today.toDateString()
+  return calendarDate(dateStr) === calendarDate(new Date())
 }
 
 export const useStudyStore = create<StudyState>()(
